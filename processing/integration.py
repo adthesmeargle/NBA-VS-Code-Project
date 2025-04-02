@@ -25,7 +25,7 @@ def get_total_stats_path(nba_stats_paths=None):
 def get_stats_path_csv(nba_stats_paths=None, stat_types=None):
     """
     Get path for advanced stats
-    :param: type of stats we want to get e.g. [advanced, totals, per_game, standings] 
+    :param: type of sta we want to get e.g. [advanced, totals, per_game, standings] 
     """
     if "advanced" in stat_types:
         for path in nba_stats_paths:
