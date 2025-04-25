@@ -1,50 +1,14 @@
 import pandas as pd
 
-nba_stats_folder_name = "C:\Users\zephy\Coding Projects\NBA-VS-Code-Project\MonthlyStats"
-path_to_headshots = "C:\Users\zephy\Coding Projects\NBA-VS-Code-Project\headshots"
+nba_stats_folder_name = "C:\Users\zephy\Coding Projects\NBA-VS-Code-Project\data\stats"
 
-snap_shot_suffixes = ['stats_0125', 'stats_0225', 'stats_0325']
+path_to_headshots = "C:\Users\zephy\Coding Projects\NBA-VS-Code-Project\data\headshots"
+
+snap_shot_suffixes = ['stats_0125', 'stats_0225', 'stats_0325', 'stats_0425']
 
 nba_stats_paths = [f"{nba_stats_folder_name}\{month}" for month in snap_shot_suffixes]
 
 stat_types = ["advanced", "per_game", "standings", "totals"]   
-
-"""
-def get_stats_path_csv(nba_stats_paths=None, stat_types=None):
-
-    #Initialize an empty list and add paths to the list
-    list_of_stat_paths = []
-
-    for path in nba_stats_paths:
-        if "advanced" in stat_types:
-            list_of_stat_paths += path + "\advanced.csv"
-        if "per_game" in stat_types:
-            list_of_stat_paths += path + "\per_game.csv"
-        if "standings" in stat_types:
-            list_of_stat_paths += path + "\standings.csv"
-        if "totals" in stat_types:
-            list_of_stat_paths += path + "\totals.csv"
-    
-    return list_of_stat_paths
-"""
-
-
-"""
-def load_all_the_data(list_of_stat_paths):
-  
-    #Initialize necessary dataframes
-    advanced_df =
-    per_game_df = 
-    standings_df =
-    totals_df = 
-
-    for path in list_of_stat_paths:
-        df = pd.read_csv(path)
-        if path 
-
-    return all_the_advanced_data, all_the_totals_data
-"""
-
 
 
 def get_stats(nba_stats_paths=None, stat_types=None):
@@ -72,10 +36,6 @@ def get_stats(nba_stats_paths=None, stat_types=None):
 
 advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths, stat_types)
 
-"""
-list_of_stat_paths = get_stats_path_csv(nba_stats_paths, ["advanced", "totals"])
-advanced_df, totals_df = load_all_the_data(list_of_stat_paths)
-"""
 
 #Team Abbreviations are necessary for connecting players to their teams
 team_abbreviations = {
@@ -117,34 +77,38 @@ team_abbreviations = {
 
 
 
-"""
+
 def data_cleaning(list_of_dataframes):
    
    #takes dataframes and then creates some extra columns to separate stats
    # for example pts per game and total pts are different
 
+ 
+
 
    return something
 
-"""
 
 
 
-# Rename some columns: add `prefix` to certain column names
-cols_to_keep = ['Rk', 'Player', 'Season', 'Pos', 'Age', 'Tm', 'G', 'GS']
 
-# Rename other columns
-for col in per_game_df.columns:
-  if col not in cols_to_keep:
-    per_game_df = per_game_df.rename(columns={col: col + '_per_game'})
 
-for col in totals_df.columns:
-  if col not in cols_to_keep:
-    totals_df = totals_df.rename(columns={col: col + '_totals'})
 
-for col in advanced_df.columns:
-  if col not in cols_to_keep:
-    advanced_df = advanced_df.rename(columns={col: col + '_average'})
+  # Rename some columns: add `prefix` to certain column names
+    cols_to_keep = ['Rk', 'Player', 'Season', 'Pos', 'Age', 'Tm', 'G', 'GS']
+
+    # Rename other columns
+    for col in per_game_df.columns:
+        if col not in cols_to_keep:
+            per_game_df = per_game_df.rename(columns={col: col + '_per_game'})
+
+    for col in totals_df.columns:
+        if col not in cols_to_keep:
+            totals_df = totals_df.rename(columns={col: col + '_totals'})
+
+    for col in advanced_df.columns:
+       if col not in cols_to_keep:
+          advanced_df = advanced_df.rename(columns={col: col + '_average'})
 
 
 
