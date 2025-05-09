@@ -2,6 +2,7 @@ import os
 import pickle
 import pandas as pd
 import math
+import numpy as np
 
 def is_nan_string(string):
     try:
@@ -153,10 +154,23 @@ def standings_cleanup(standings_df):
     # removing columns that aren't needed
     standings_df = standings_df.drop(columns=['W', 'L', 'W/L%'])
 
+    standings_df_team = standings_df[['Team']]
+
+    correct_teams_lst = []
+    for index, row in standings_df_team.iterrows():
+        team = row['Team']
+        if team not in team_abbreviations.keys():
+        ### Remove one letter from the end of string to eliminate the space
+            team = team[:-1] # Change this code with string strip approach later
+        correct_teams_lst.append(team)
+
+    standings_df['Team'] = correct_teams_lst
+
     nba_teams = pd.DataFrame.from_dict(team_abbreviations, orient='index').reset_index()
     nba_teams = nba_teams.rename(columns={'index': 'Tm', 0: 'Team'})
     _standings_df = standings_df.rename(columns={'Team': 'Tm'})
     standings_w_abbr = pd.merge(_standings_df, nba_teams, on='Tm', how='left')
+
     wins = (standings_w_abbr['Record'].str.split('-',expand=True)[0]).astype(int)
     games = (standings_w_abbr['Record'].str.split('-',expand=True)[0]).astype(int) + (standings_w_abbr['Record'].str.split('-',expand=True)[1]).astype(int)
     win_pct = wins/games
@@ -198,6 +212,13 @@ def mvp_selection_criteria(stats_df):
 
 features_df = mvp_selection_criteria(stats_df)
 
+
+### Display features_df
+print(features_df.head())
+
+
+
+
 def feature_selection(features_df):
     features_df = features_df.drop(['Player', 'Season', 'Pos', 'Tm', 'Team', 'Record',
                           'Age', 'Seed', 'FGA_per_game', 'G', 'FG_per_game', '3PA_per_game', '3P%_per_game', '2PA_per_game', '2P%_per_game', 'eFG%_per_game', 'FTA_per_game', 'FTA_totals',
@@ -215,6 +236,17 @@ model_path = os.path.join(os.path.dirname(__file__), '../models/rf_model.pkl')
 
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
+
+### ChatGPT Solution to pkl file average vs advanced problem
+# If feature names are stored in feature_names_in_
+if hasattr(model, 'feature_names_in_'):
+    old_names = model.feature_names_in_
+    new_names = np.array([name.replace('_average', '_advanced') for name in old_names])
+    model.feature_names_in_ = new_names
+
+### ChatGPT Save New Model
+with open('updated_model.pkl', 'wb') as file:
+    pickle.dump(model, file)
 
 mvp_predictions = model.predict(features_df)
 pred = features_df[['Player', 'Team', 'Season']].copy()
