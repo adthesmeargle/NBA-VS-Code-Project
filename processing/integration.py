@@ -49,7 +49,7 @@ def get_stats(nba_stats_path=None, stat_types=None):
     return advanced_df, per_game_df, standings_df, totals_df
 
 
-advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[0], stat_types)
+advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[3], stat_types)
 
 #Team Abbreviations are necessary for connecting players to their teams
 team_abbreviations = {
@@ -200,35 +200,39 @@ stats_df = merge_stats(advanced_df , per_game_df, standings_df, totals_df)
 def mvp_selection_criteria(stats_df):
     features_df = stats_df[
     (
-        (stats_df['G'] > 20) &
+        (stats_df['G'] > 50) &
         (stats_df['MP_per_game'] > 30) &
         (stats_df['PTS_per_game'] > 15) &
-        (stats_df['TRB_per_game'] > 2) &
+        (stats_df['TRB_per_game'] > 1) &
         (stats_df['AST_per_game'] > 2) &
-        (stats_df['Team'] != 'TOT')
+        (stats_df['Team'] != '2TM')
     )
     ]
     return features_df
 
-features_df = mvp_selection_criteria(stats_df)
+_features_df = mvp_selection_criteria(stats_df)
 
 
-### Display features_df
-print(features_df.head())
+
 
 
 
 
 def feature_selection(features_df):
     features_df = features_df.drop(['Player', 'Season', 'Pos', 'Tm', 'Team', 'Record',
-                          'Age', 'Seed', 'FGA_per_game', 'G', 'FG_per_game', '3PA_per_game', '3P%_per_game', '2PA_per_game', '2P%_per_game', 'eFG%_per_game', 'FTA_per_game', 'FTA_totals',
+                          'Age', 'Seed', 'FGA_per_game', 'G', 'G_x', 'G_y', 'FG_per_game', '3PA_per_game', '3P%_per_game', '2PA_per_game', '2P%_per_game', 'eFG%_per_game', 'FTA_per_game', 'FTA_totals',
                           'FT%_per_game', 'DRB_per_game', 'ORB_per_game', 'ORB%_advanced','DRB%_advanced', 'TRB%_advanced', 'AST%_advanced', 'STL%_advanced', 'BLK%_advanced', 'OWS_advanced',
                           'DWS_advanced', 'WS_advanced', 'WS/48_advanced', 'OBPM_advanced', 'DBPM_advanced', 'BPM_advanced', 'VORP_advanced', '3PAr_advanced', 'FTr_advanced', 'USG%_advanced',
-                          'FGA_totals', '3PA_totals', '2PA_totals', 'DRB_totals', 'ORB_totals', 'Awards_advanced', 'Awards_per_game', 'Awards_totals', 'GS_x', 'GS_y', 'Trp-Dbl_totals'], axis = 1
+                          'FGA_totals', '3PA_totals', '2PA_totals', 'DRB_totals', 'ORB_totals', 'Awards_advanced', 'Awards_per_game', 'Awards_totals', 'GS', 'Trp-Dbl_totals',
+                          
+                          'Age_x', 'Age_y', 'GS_x', 'GS_y', 'Pos_x', 'Pos_y', 'Rank', 'Rank_x', 'Rank_y' 
+                          ], axis = 1
                         )
     return features_df
 
-features_df = feature_selection(features_df)
+features_df = feature_selection(_features_df)
+### Display features_df
+# print(features_df .columns)
 
 
 # ======Load model and make predictions====
@@ -245,15 +249,12 @@ if hasattr(model, 'feature_names_in_'):
     model.feature_names_in_ = new_names
 
 ### ChatGPT Save New Model
-with open('updated_model.pkl', 'wb') as file:
-    pickle.dump(model, file)
+# with open('updated_model.pkl', 'wb') as file:
+#     pickle.dump(model, file)
 
 mvp_predictions = model.predict(features_df)
-pred = features_df[['Player', 'Team', 'Season']].copy()
+pred = _features_df[['Player', 'Team', 'Season']].copy()
 pred['Predicted MVP Votes Share'] = pd.Series(mvp_predictions).values
 
 pred = pred.sort_values(by=['Season', 'Predicted MVP Votes Share'], ascending=[True, False])
-print(pred.head(10))
-
-'''
-'''
+print(pred.head(5))
