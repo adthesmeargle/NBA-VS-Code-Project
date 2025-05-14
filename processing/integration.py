@@ -257,4 +257,13 @@ pred = _features_df[['Player', 'Team', 'Season']].copy()
 pred['Predicted MVP Votes Share'] = pd.Series(mvp_predictions).values
 
 pred = pred.sort_values(by=['Season', 'Predicted MVP Votes Share'], ascending=[True, False])
-print(pred.head(5))
+
+# Load player ids
+player_id_df = pd.read_csv(os.path.join(os.path.dirname(__file__),path_to_headshots + "/player_id_name.csv"))
+print(player_id_df)
+pred_final =  pd.merge(player_id_df, pred, left_on='player_name', right_on='Player', how='right')
+pred_final = pred_final.drop(columns=['player_name'])
+pred_final['headshot_path'] = path_to_headshots + "/" + pred_final['player_id'] + ".jpg"
+print(pred_final.head(10))
+
+pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0425.csv'), index=False)
