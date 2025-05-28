@@ -263,7 +263,14 @@ player_id_df = pd.read_csv(os.path.join(os.path.dirname(__file__),path_to_headsh
 print(player_id_df)
 pred_final =  pd.merge(player_id_df, pred, left_on='player_name', right_on='Player', how='right')
 pred_final = pred_final.drop(columns=['player_name'])
-pred_final['headshot_path'] = path_to_headshots + "/" + pred_final['player_id'] + ".jpg"
+pred_final['headshot_path'] = path_to_headshots + "/headshot/" + pred_final['player_id'] + ".jpg"
+
+
+def round_list(data, decimal_places=3):
+    return [round(value, decimal_places) for value in data]
+
+
+pred_final['Predicted MVP Votes Share'] = round_list(pred_final['Predicted MVP Votes Share'])
 print(pred_final.head(10))
 
 pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0425.csv'), index=False)

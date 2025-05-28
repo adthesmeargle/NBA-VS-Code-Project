@@ -1,6 +1,6 @@
 player_id,Player,Team,Season,Predicted MVP Votes Share,headshot_path
-gilgesh01,Shai Gilgeous-Alexander,OKC,2024-25,0.8466499999999998,../data/headshots/gilgesh01.jpg
-jokicni01,Nikola Jokić,DEN,2024-25,0.7184299999999996,../data/headshots/jokicni01.jpg
-antetgi01,Giannis Antetokounmpo,MIL,2024-25,0.3974800000000001,../data/headshots/antetgi01.jpg
-edwaran01,Anthony Edwards,MIN,2024-25,0.11692000000000005,../data/headshots/edwaran01.jpg
-tatumja01,Jayson Tatum,BOS,2024-25,0.08199,../data/headshots/tatumja01.jpg
+gilgesh01,Shai Gilgeous-Alexander,OKC,2024-25,0.847,../data/headshots/headshot/gilgesh01.jpg
+jokicni01,Nikola Jokić,DEN,2024-25,0.718,../data/headshots/headshot/jokicni01.jpg
+antetgi01,Giannis Antetokounmpo,MIL,2024-25,0.397,../data/headshots/headshot/antetgi01.jpg
+edwaran01,Anthony Edwards,MIN,2024-25,0.117,../data/headshots/headshot/edwaran01.jpg
+tatumja01,Jayson Tatum,BOS,2024-25,0.082,../data/headshots/headshot/tatumja01.jpg
