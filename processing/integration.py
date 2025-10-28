@@ -49,7 +49,7 @@ def get_stats(nba_stats_path=None, stat_types=None):
     return advanced_df, per_game_df, standings_df, totals_df
 
 
-advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[3], stat_types)
+advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[0], stat_types)
 
 #Team Abbreviations are necessary for connecting players to their teams
 team_abbreviations = {
@@ -200,7 +200,7 @@ stats_df = merge_stats(advanced_df , per_game_df, standings_df, totals_df)
 def mvp_selection_criteria(stats_df):
     features_df = stats_df[
     (
-        (stats_df['G'] > 50) &
+        (stats_df['G'] > 20) &
         (stats_df['MP_per_game'] > 30) &
         (stats_df['PTS_per_game'] > 15) &
         (stats_df['TRB_per_game'] > 1) &
@@ -273,4 +273,4 @@ def round_list(data, decimal_places=3):
 pred_final['Predicted MVP Votes Share'] = round_list(pred_final['Predicted MVP Votes Share'])
 print(pred_final.head(10))
 
-pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0425.csv'), index=False)
+pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0125.csv'), index=False)
