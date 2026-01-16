@@ -49,7 +49,14 @@ def get_stats(nba_stats_path=None, stat_types=None):
     return advanced_df, per_game_df, standings_df, totals_df
 
 
+<<<<<<< HEAD
+
+
+### CHOOSE THE MONTH HERE!!!!
+advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[3], stat_types)
+=======
 advanced_df , per_game_df, standings_df, totals_df = get_stats(nba_stats_paths[0], stat_types)
+>>>>>>> origin/main
 
 #Team Abbreviations are necessary for connecting players to their teams
 team_abbreviations = {
@@ -197,10 +204,23 @@ stats_df = merge_stats(advanced_df , per_game_df, standings_df, totals_df)
 # =========START OF FEATURE ENG=====
 
 
+<<<<<<< HEAD
+#25 Games for jan
+#30 for feb
+#40 for march
+#50 for april
+
+
+def mvp_selection_criteria(stats_df):
+    features_df = stats_df[
+    (
+        (stats_df['G'] > 50) &
+=======
 def mvp_selection_criteria(stats_df):
     features_df = stats_df[
     (
         (stats_df['G'] > 20) &
+>>>>>>> origin/main
         (stats_df['MP_per_game'] > 30) &
         (stats_df['PTS_per_game'] > 15) &
         (stats_df['TRB_per_game'] > 1) &
@@ -213,8 +233,13 @@ def mvp_selection_criteria(stats_df):
 _features_df = mvp_selection_criteria(stats_df)
 
 
+<<<<<<< HEAD
+### This below line will capture the data frame after filtering out players who don't meet potential mvp criteria
+#_features_df.to_csv('apr_mvp_candidates.csv', index=False)
+=======
 
 
+>>>>>>> origin/main
 
 
 
@@ -273,4 +298,8 @@ def round_list(data, decimal_places=3):
 pred_final['Predicted MVP Votes Share'] = round_list(pred_final['Predicted MVP Votes Share'])
 print(pred_final.head(10))
 
+<<<<<<< HEAD
+#pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0125.csv'), index=False)
+=======
 pred_final.head(5).to_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0125.csv'), index=False)
+>>>>>>> origin/main

@@ -1,0 +1,6 @@
+player_id,Player,Team,Season,Predicted MVP Votes Share,headshot_path
+gilgesh01,Shai Gilgeous-Alexander,Oklahoma City Thunder,2025-26,0.589,../data/headshots/headshot/gilgesh01.jpg
+jokicni01,Nikola Jokić,Denver Nuggets,2025-26,0.483,../data/headshots/headshot/jokicni01.jpg
+doncilu01,Luka Dončić,Los Angeles Lakers,2025-26,0.239,../data/headshots/headshot/doncilu01.jpg
+leonaka01,Kawhi Leonard,Los Angeles Clippers,2025-26,0.226,../data/headshots/headshot/leonaka01.jpg
+mitchdo01,Donovan Mitchell,Cleveland Cavaliers,2025-26,0.085,../data/headshots/headshot/mitchdo01.jpg
