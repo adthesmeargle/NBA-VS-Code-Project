@@ -1,0 +1,21 @@
+==root==
+|__data
+    |__stats
+    |__headshots
+|__processing
+    |__integration.py@addison1
+    |__feature_eng.py@kemar2
+|__models
+    |__mvp_model.pkl
+    |__inference.py@addison3
+|__testing
+    |__test_integration.py
+    |__test_feature_eng.py
+    |__test_inference.py    
+|__app
+    |__app_backend.py
+    |__top10mvp_+_headshots_{month}.csv
+    |__app_frontend.py
+        - **[dataframe w/ headshot, name, mvp vote]**
+        - [click through]
+        - [player stat card pop out]
