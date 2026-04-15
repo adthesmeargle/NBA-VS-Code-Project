@@ -12,7 +12,8 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 def resolve_relative_path(rel_path):
     return os.path.join(script_dir, rel_path)
 
-### Check Google Drive for the process to get the mvp_0126, mvp_0226, mvp_0326 df
+### Check Google Drive for the process to get the mvp_0126, mvp_0226, mvp_0326, mvp_0426 df
+mvp_0426_df = pd.read_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0426.csv'))
 mvp_0326_df = pd.read_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0326.csv'))
 mvp_0226_df = pd.read_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0226.csv'))
 mvp_0126_df = pd.read_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mvp_0126.csv'))
@@ -24,6 +25,7 @@ mvp_0125_df = pd.read_csv(os.path.join(os.path.dirname(__file__),'../app' + '/mv
 
 
 # Update the DataFrame to use fully resolved paths (still relative-based!)
+mvp_0426_df["headshot_path"] = mvp_0426_df["headshot_path"].apply(resolve_relative_path)
 mvp_0326_df["headshot_path"] = mvp_0326_df["headshot_path"].apply(resolve_relative_path)
 mvp_0226_df["headshot_path"] = mvp_0226_df["headshot_path"].apply(resolve_relative_path)
 mvp_0126_df["headshot_path"] = mvp_0126_df["headshot_path"].apply(resolve_relative_path)
@@ -33,6 +35,7 @@ mvp_0225_df["headshot_path"] = mvp_0225_df["headshot_path"].apply(resolve_relati
 mvp_0125_df["headshot_path"] = mvp_0125_df["headshot_path"].apply(resolve_relative_path)
 
 # Add image objects to new column
+mvp_0426_df["headshot_image"] = mvp_0426_df["headshot_path"].apply(lambda path: Image.open(path) if os.path.exists(path) else None)
 mvp_0326_df["headshot_image"] = mvp_0326_df["headshot_path"].apply(lambda path: Image.open(path) if os.path.exists(path) else None)
 mvp_0226_df["headshot_image"] = mvp_0226_df["headshot_path"].apply(lambda path: Image.open(path) if os.path.exists(path) else None)
 mvp_0126_df["headshot_image"] = mvp_0126_df["headshot_path"].apply(lambda path: Image.open(path) if os.path.exists(path) else None)
@@ -45,7 +48,7 @@ mvp_0125_df["headshot_image"] = mvp_0125_df["headshot_path"].apply(lambda path: 
 
 # Set default page
 if "page" not in st.session_state:
-    st.session_state.page = "mar 2026"
+    st.session_state.page = "apr 2026"
 
 
 # Page navigation
@@ -53,6 +56,7 @@ def go_to(page):
     st.session_state.page = page
 
 # Buttons for navigation
+st.sidebar.button("Apr 2026", on_click=go_to, args=("apr 2026",))
 st.sidebar.button("Mar 2026", on_click=go_to, args=("mar 2026",))
 st.sidebar.button("Feb 2026", on_click=go_to, args=("feb 2026",))
 st.sidebar.button("Jan 2026", on_click=go_to, args=("jan 2026",))
@@ -62,8 +66,28 @@ st.sidebar.button("Feb 2025", on_click=go_to, args=("feb 2025",))
 st.sidebar.button("Jan 2025", on_click=go_to, args=("jan 2025",))
 
 # Render page content
+if st.session_state.page == "apr 2026":
+    st.title("April MVP Predictions 2026")
 
-if st.session_state.page == "mar 2026":
+    #Create table header
+    cols = st.columns([1, 2, 1, 2])  # Widths of columns: Image, Player, Team, Predicted MVP Votes Share
+    cols[0].markdown("")
+    cols[1].markdown("**Player**")
+    cols[2].markdown("**Team**")
+    cols[3].markdown("**Predicted MVP Votes Share**")
+
+    # Render each row
+    for _, row in mvp_0426_df.iterrows():
+        cols = st.columns([1, 2, 1, 2])
+        if row["headshot_image"]:
+            cols[0].image(row["headshot_image"], width=80)
+        else:
+            cols[0].warning("Missing")
+        cols[1].markdown(row["Player"])
+        cols[2].markdown(row["Team"])
+        cols[3].markdown(row["Predicted MVP Votes Share"])
+
+elif st.session_state.page == "mar 2026":
     st.title("March MVP Predictions 2026")
 
     #Create table header
